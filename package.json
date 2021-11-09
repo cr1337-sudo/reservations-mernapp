@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "heroku-postbuild": "cd reservas-ui && npm star && npm run build",
+    "heroku-postbuild": "cd reservas-ui && npm start && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
