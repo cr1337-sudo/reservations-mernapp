@@ -54,7 +54,7 @@ const Summary = () => {
           jobs: services,
           note,
         };
-        axios.post("/sessions", data);
+        axios.post("/api/sessions", data);
       })
       .then(() => {
         setError(null);
