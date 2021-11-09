@@ -9,11 +9,11 @@
   box-sizing: border-box;
   background-color: rgba(40, 41, 61, 1);
   padding: 20px;
-  height: calc(100% - 20px);
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  min-height: calc(100vh - 40px);
 
-  &.light{
+  &.light {
     background-color: $bgComponents;
   }
 
@@ -28,6 +28,8 @@
     display: flex;
     flex-wrap: wrap;
   }
+
+ 
 }
 
 @media (max-width: 606px) {
@@ -38,6 +40,7 @@
 
   @media (max-width: 600px) {
     .reservations-container{
+
     margin-bottom: 80px;
     margin-left: 20px;
     }
