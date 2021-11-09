@@ -20,6 +20,8 @@ app.use(express.urlencoded());
 require("./database");
 
 
+app.use(express.static(path.join(__dirname, "../reservas-ui/build")));
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../reservas-ui/build", "index.html"));
 });
@@ -34,7 +36,6 @@ app.use("/api/auth", authRoutes);
 
 
 
-app.use(express.static(path.join(__dirname, "../reservas-ui/build")));
 
 app.listen(port, () => {
   console.log("Server running at port " + port);
