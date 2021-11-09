@@ -1,0 +1,31 @@
+@import "../../variables";
+
+.reservations-container {
+  margin: 10px;
+  margin-left: 4.5rem;
+  width: calc(99wv - 4rem);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background-color: rgba(40, 41, 61, 1);
+  padding: 20px;
+  height: calc(100% - 20px);
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  &.light{
+    background-color: $bgComponents;
+  }
+
+  .top-title {
+    padding: 8px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid white;
+    margin-bottom: 7px;
+  }
+
+  .mid-reservations {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

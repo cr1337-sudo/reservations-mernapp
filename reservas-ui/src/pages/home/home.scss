@@ -1,0 +1,15 @@
+.main-container {
+  height: 100%;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  margin-left: 4rem;
+  flex-direction: row;
+
+  .left-container,
+  .center-container,
+  .right-container {
+    flex: 4;
+    margin:10px;
+  }
+}

@@ -1,0 +1,122 @@
+@import "../../variables";
+
+.profile-container {
+  height: 100%;
+  margin-left: 4.5rem;
+  width: calc(99wv - 4rem);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background-color: rgba(40, 41, 61, 1);
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  &.light {
+    background-color: $bgComponents;
+  }
+
+  .top-title {
+    padding: 8px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid white;
+    margin-bottom: 7px;
+  }
+
+  .center-main {
+    margin-top: 10px;
+    font-size: 18px;
+    padding: 55px;
+    display: flex;
+
+    .left-side {
+      display: flex;
+      flex: 5;
+      flex-direction: column;
+
+      img {
+        border-radius: 50%;
+        height: 180px;
+        width: 180px;
+        margin: 7px 0;
+      }
+      h4 {
+        margin: 8px 0px;
+      }
+      input {
+        margin-top: 8px;
+      }
+    }
+    .right-side {
+      display: flex;
+      flex: 7;
+
+      form {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        h4 {
+          margin: 8px 0;
+        }
+        .h4-password {
+          margin-top: 18px;
+        }
+        input {
+          font-size: 18px;
+          padding: 5px;
+          border-radius: 3px;
+          outline: none;
+          border: none;
+          margin: 8px 0;
+          height: 32px;
+          width: 100%;
+          background-color: lighten(gray, 30%);
+          color: black;
+          box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+
+          &.disabled {
+            background-color: white;
+            color: black;
+          }
+        }
+
+        button {
+          min-width: 20%;
+          padding: 16px;
+          font-size: 19px;
+          border: none;
+          border-radius: 12px;
+          color: white;
+          margin-top: 5px;
+          margin-right: 10px;
+          cursor: pointer;
+        }
+        button.disabled {
+          background-color: gray;
+          pointer-events: none;
+          cursor: not-allowed;
+        }
+
+        .edit-button {
+          background-color: #32cd32;
+        }
+
+        .post-button {
+          background-color: blue;
+        }
+
+        .cancel-button {
+          background-color: red;
+        }
+        .error {
+          text-align: center;
+          background-color: lighten(red, 10%);
+          border: red;
+          padding: 7px;
+          margin: 5px 0;
+        }
+      }
+    }
+  }
+}

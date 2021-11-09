@@ -1,0 +1,19 @@
+@import "./variables";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap");
+body {
+  font-family: "Montserrat", sans-serif;
+  color: #fff;
+}
+
+.cont {
+  background-color: rgba(28, 28, 39, 1);
+  height: 100vh;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.cont.light{
+  background-color:$bgLight;
+  color: black;
+}
