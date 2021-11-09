@@ -23,7 +23,7 @@ const Jobs = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/jobs");
+      const res = await axios.get("/api/jobs");
       setData(res.data);
       setLoading(false);
     };

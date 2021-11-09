@@ -54,7 +54,7 @@ const Profile = () => {
     if (validatePassword()) {
       setUpdating(true);
       axios
-        .put(`/users/${user._id}`, newData, {
+        .put(`/api/users/${user._id}`, newData, {
           headers: {
             token: `Bearer ${user.token}`,
           },

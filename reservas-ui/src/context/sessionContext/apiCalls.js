@@ -5,7 +5,7 @@ export const getSessions = async (dispatch, date) => {
   dispatch(dateChange());
   try {
     const res = await axios.get(
-      `days?year=${date.year}&month=${date.month}&day=${date.day}`
+      `/api/days?year=${date.year}&month=${date.month}&day=${date.day}`
     );
     dispatch(sessionOk(res.data));
   } catch {

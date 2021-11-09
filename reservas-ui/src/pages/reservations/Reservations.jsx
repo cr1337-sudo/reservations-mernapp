@@ -11,7 +11,7 @@ const Reservations = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     const fetchReservations = async () => {
-      const res = await axios.get(`/sessions?email=${user.email}`);
+      const res = await axios.get(`/api/sessions?email=${user.email}`);
       setData(res.data);
     };
     fetchReservations();

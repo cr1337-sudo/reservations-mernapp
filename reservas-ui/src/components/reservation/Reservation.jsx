@@ -10,7 +10,7 @@ const Reservation = ({ data }) => {
 
     if (confirmDelete) {
       await axios
-        .delete(`/sessions/${dayId}/${_id}`)
+        .delete(`/api/sessions/${dayId}/${_id}`)
         .then(() => alert("Reservation cancelled"))
         .then(() => window.location.reload(false));
     }

@@ -34,7 +34,7 @@ const Summary = () => {
       );
     await axios
       .post(
-        "/days",
+        "/api/days",
         { year: day.day.year, month: day.day.month, day: day.day.day },
         {
           headers: {
