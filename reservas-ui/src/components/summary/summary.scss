@@ -206,3 +206,27 @@
   }
 
 }
+
+@media (max-width: 1200px) {
+  .summary-container {
+    .error {
+      font-size: 15px;
+    }
+    .service {
+      font-size: 15px;
+    }
+    p {
+      font-size: 15px;
+    }
+    textarea {
+      height: 90px;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .summary-container {
+    padding-bottom: 90px;
+  }
+}
+

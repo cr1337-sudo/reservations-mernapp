@@ -29,3 +29,16 @@
     flex-wrap: wrap;
   }
 }
+
+@media (max-width: 606px) {
+    .mid-reservations {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .reservations-container{
+    margin-bottom: 80px;
+    margin-left: 20px;
+    }
+  }
