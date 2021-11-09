@@ -120,34 +120,39 @@ const Profile = () => {
               value={userDataEdit?.phone || ""}
               onChange={handleChange}
             />
+          {user.name !== "prueba" && user.email !== "prueba@prueba.com" ? (
+              <>
+                <h4 className="h4-password">Change Password</h4>
+                <label for="password1">Password</label>
+                <input
+                  className={edit ? "disabled" : undefined}
+                  name="password1"
+                  type="password"
+                  placeholder="Password"
+                  disabled={!edit}
+                  value={passwords.password1}
+                  onChange={(e) => {
+                    setPasswords({ ...passwords, password1: e.target.value });
+                  }}
+                />
+                <label for="password2">Confirm password</label>
+                <input
+                  className={edit ? "disabled" : undefined}
+                  name="password2"
+                  type="password"
+                  placeholder="Confirm password..."
+                  disabled={!edit}
+                  value={passwords.password2}
+                  onChange={(e) => {
+                    setPasswords({ ...passwords, password2: e.target.value });
+                  }}
+                />
 
-            <h4 className="h4-password">Change Password</h4>
-            <label for="password1">Password</label>
-            <input
-              className={edit ? "disabled" : undefined}
-              name="password1"
-              type="password"
-              placeholder="Password"
-              disabled={!edit}
-              value={passwords.password1}
-              onChange={(e) => {
-                setPasswords({ ...passwords, password1: e.target.value });
-              }}
-            />
-            <label for="password2">Confirm password</label>
-            <input
-              className={edit ? "disabled" : undefined}
-              name="password2"
-              type="password"
-              placeholder="Confirm password..."
-              disabled={!edit}
-              value={passwords.password2}
-              onChange={(e) => {
-                setPasswords({ ...passwords, password2: e.target.value });
-              }}
-            />
-
-            {passwordError ? <p className="error">{passwordError}</p> : null}
+                {passwordError ? (
+                  <p className="error">{passwordError}</p>
+                ) : null}
+              </>
+            ) : null}
             <div class="buttons">
               {edit ? (
                 <>
