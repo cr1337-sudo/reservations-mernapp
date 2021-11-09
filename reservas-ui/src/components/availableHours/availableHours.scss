@@ -16,7 +16,7 @@
   &.light {
     background-color: $bgComponents;
 
-    .inputGroup{
+    .inputGroup {
       background-color: $secondaryColor;
     }
   }
@@ -74,8 +74,6 @@
     margin: 5px;
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
-
 
     label {
       height: 100%;
@@ -151,9 +149,13 @@
       visibility: hidden;
     }
   }
+
   .nonAvailable {
     border: 1px solid #ff0000;
-    background-color: rgba(255, 0, 0, 0.1);
+    label {
+      background-color: rgba(255, 0, 0, 0.5);
+      color: black;
+    }
     label::after {
       visibility: hidden;
     }
