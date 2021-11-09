@@ -3,9 +3,11 @@ import "./logReg.scss";
 import { AuthContext } from "../../context/authContext/AuthContext";
 import {errorNull} from "../../context/authContext/AuthActions"
 import { login, register } from "../../context/authContext/apiCalls";
+import {ThemeContext} from "../../context/themeContext/ThemeContext.js"
 
 const LogReg = () => {
   const { dispatch, error } = useContext(AuthContext);
+  const {theme} = useContext(ThemeContext)
   const [loginTarget, setLoginTarget] = useState(false);
   const [registerInfo, setRegisterInfo] = useState({});
   const [loginInfo, setLoginInfo] = useState({});
@@ -38,7 +40,7 @@ const LogReg = () => {
     }
   };
   return (
-    <div className="c">
+    <div className={`c ${theme === "light" ? "light" : ""}`}>
       <div
         className={`container ${loginTarget ? "right-panel-active" : ""}`}
         id="container"
