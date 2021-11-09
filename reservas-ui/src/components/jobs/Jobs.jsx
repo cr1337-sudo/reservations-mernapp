@@ -46,19 +46,18 @@ const Jobs = () => {
         </div>
       ) : (
         <div className="available-jobs">
-                 </div>
+          {data?.map((job) => (
+            <AvailableJob
+              key={job.title}
+              title={job.title}
+              desc={job.desc}
+              handleSelect={handleSelect}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
 };
-
- // {data?.map((job) => (
- //            <AvailableJob
- //              key={job.title}
- //              title={job.title}
- //              desc={job.desc}
- //              handleSelect={handleSelect}
- //            />
- //          ))}
 
 export default Jobs;
