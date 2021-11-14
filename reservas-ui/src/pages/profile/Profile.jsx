@@ -1,18 +1,24 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import "./profile.scss";
+import { Box, TextField, alpha, styled, Button, Stack } from "@mui/material";
 import { AuthContext } from "../../context/authContext/AuthContext";
-import {ThemeContext} from "../../context/themeContext/ThemeContext"
+import { ThemeContext } from "../../context/themeContext/ThemeContext";
 import axios from "axios";
 
 const Profile = () => {
   const { user, dispatch } = useContext(AuthContext);
-  const {theme} = useContext(ThemeContext
-  )
+  const { theme } = useContext(ThemeContext);
   const [edit, setEdit] = useState(false);
   const [userDataEdit, setUserDataEdit] = useState({
     name: user.name,
     email: user.email,
   });
+  const name = useRef(null);
+  const email = useRef(null);
+  const phone = useRef(null);
+  const password1 = useRef(null);
+  const password2 = useRef(null);
+
   const [passwords, setPasswords] = useState({
     password1: "",
     password2: "",
@@ -37,24 +43,19 @@ const Profile = () => {
     }
   };
 
-  const handleChange = (e) => {
-    setUserDataEdit({
-      ...userDataEdit,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     let newData = {
-      ...userDataEdit,
-      password: passwords.password1,
+      name: name.current.value,
+      email: email.current.value,
+      phone: phone.current.value,
+      password: password1.current.value,
     };
 
     if (validatePassword()) {
       setUpdating(true);
       axios
-        .put(`/api/users/${user._id}`, newData, {
+        .put(`/users/${user._id}`, newData, {
           headers: {
             token: `Bearer ${user.token}`,
           },
@@ -73,6 +74,12 @@ const Profile = () => {
     }
   };
 
+  const CssTextField = styled(TextField)({
+    ".MuiFilledInput-input ": {
+      background: "white",
+    },
+  });
+
   return (
     <div className={`profile-container ${theme === "light" ? "light" : ""}`}>
       <div class="top-title">
@@ -88,9 +95,49 @@ const Profile = () => {
           <input placeholder="New photo" type="file" />
         </div>
         <div class="right-side">
+          {/*
           <form action="" onSubmit={handleSubmit}>
+      */}
+          <Box
+            component="form"
+            noValidate
+            className="form"
+            sx={{
+              display: "grid",
+              gridTemplateColumns: { sm: "1fr 1fr" },
+              gap: 2,
+            }}
+            onSubmit={handleSubmit}
+          >
             <h4>Personal Info</h4>
-            <label for="name">Name</label>
+            <CssTextField
+              disabled={!edit}
+              inputRef={name}
+              variant="filled"
+              label="Name"
+              type="text"
+              name="name"
+              defaultValue={userDataEdit.name}
+            />
+            <CssTextField
+              disabled={!edit}
+              inputRef={email}
+              variant="filled"
+              label="Email"
+              type="email"
+              name="email"
+              defaultValue={userDataEdit.email}
+            />
+            <CssTextField
+              disabled={!edit}
+              inputRef={phone}
+              variant="filled"
+              label="Phone Number"
+              type="number"
+              name="phone"
+              defaultValue={userDataEdit?.phone || ""}
+            />
+            {/*
             <input
               className={edit ? "disabled" : undefined}
               name="name"
@@ -100,74 +147,59 @@ const Profile = () => {
               value={userDataEdit.name}
               onChange={handleChange}
             />
-            <label for="email">Email</label>
-            <input
-              className={edit ? "disabled" : undefined}
-              name="email"
-              type="email"
-              placeholder="Email"
-              disabled={!edit}
-              value={userDataEdit.email}
-              onChange={handleChange}
-            />
-            <label for="phone">Phone Number</label>
-            <input
-              className={edit ? "disabled" : undefined}
-              name="phone"
-              type="number"
-              placeholder="Phone number"
-              disabled={!edit}
-              value={userDataEdit?.phone || ""}
-              onChange={handleChange}
-            />
-          {user.name !== "prueba" && user.email !== "prueba@prueba.com" ? (
+            */}
+
+            {user.name !== "prueba" && user.email !== "prueba@prueba.com" ? (
               <>
                 <h4 className="h4-password">Change Password</h4>
-                <label for="password1">Password</label>
-                <input
-                  className={edit ? "disabled" : undefined}
-                  name="password1"
-                  type="password"
-                  placeholder="Password"
+                <CssTextField
                   disabled={!edit}
-                  value={passwords.password1}
+                  inputRef={password1}
+                  variant="filled"
+                  label="Password"
+                  type="password"
+                  name="password1"
+                  defaultValue={passwords.password1}
                   onChange={(e) => {
                     setPasswords({ ...passwords, password1: e.target.value });
                   }}
                 />
-                <label for="password2">Confirm password</label>
-                <input
-                  className={edit ? "disabled" : undefined}
-                  name="password2"
-                  type="password"
-                  placeholder="Confirm password..."
+
+                <CssTextField
                   disabled={!edit}
-                  value={passwords.password2}
+                  inputRef={password2}
+                  variant="filled"
+                  label="Confirm Password"
+                  type="password"
+                  name="password2"
+                  defaultValue={passwords.password2}
                   onChange={(e) => {
-                    setPasswords({ ...passwords, password2: e.target.value });
+                    setPasswords({ ...passwords, password1: e.target.value });
                   }}
                 />
-
                 {passwordError ? (
                   <p className="error">{passwordError}</p>
                 ) : null}
               </>
             ) : null}
-            <div class="buttons">
+            <Stack direction="row" spacing={2}>
               {edit ? (
                 <>
-                  <button
+                  <Button
                     className={
-                      updating ? "post-button disabled" : "post-button"
+                      updating ? "disabled" : null
                     }
                     disabled={updating}
+                variant="contained"
+                color="success"
+                type="submit"
                   >
                     Confirm Edit
-                  </button>
-                  <button
-                    className={
-                      updating ? "cancel-button disabled" : "cancel-button"
-                    }
+                  </Button>
+                  <Button
+                    className={updating ? "disabled" : null}
+                    variant="contained"
+                    color="error"
                     disabled={updating}
                     onClick={() => {
                       setEdit(false);
@@ -184,21 +216,22 @@ const Profile = () => {
                     }}
                   >
                     Cancel
-                  </button>
+                  </Button>
                 </>
               ) : (
-                <button
-                  className="edit-button"
+                <Button
+                  variant="contained"
+                  color="primary"
                   onClick={(e) => {
                     setEdit(true);
                     e.preventDefault();
                   }}
                 >
                   Edit
-                </button>
+                </Button>
               )}
-            </div>
-          </form>
+            </Stack>
+          </Box>
         </div>
       </div>
     </div>

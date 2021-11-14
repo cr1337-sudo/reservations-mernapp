@@ -51,7 +51,7 @@
       display: flex;
       flex: 7;
 
-      form {
+      .form {
         display: flex;
         width: 100%;
         flex-direction: column;
@@ -62,37 +62,16 @@
           margin-top: 18px;
         }
         input {
-          font-size: 18px;
-          padding: 5px;
-          border-radius: 3px;
-          outline: none;
-          border: none;
-          margin: 8px 0;
-          height: 32px;
-          width: 100%;
-          background-color: lighten(gray, 30%);
-          color: black;
-          box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 
           &.disabled {
             background-color: white;
             color: black;
           }
         }
-
-        button {
-          min-width: 20%;
-          padding: 16px;
-          font-size: 19px;
-          border: none;
-          border-radius: 12px;
-          color: white;
-          margin-top: 5px;
-          margin-right: 10px;
-          cursor: pointer;
+        button{
+          width: 20%;
         }
-        button.disabled {
+                button.disabled {
           background-color: gray;
           pointer-events: none;
           cursor: not-allowed;
@@ -146,3 +125,4 @@
     margin-left: 7px;
   }
 }
+
