@@ -1,5 +1,6 @@
 import "./jobs.scss";
 import AvailableJob from "../availableJob/AvailableJob";
+import Fade from "react-reveal/Fade"
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { SummaryContext } from "../../context/summaryContext/SummaryContext";
@@ -35,6 +36,8 @@ const Jobs = () => {
   }, [selectedItems, dispatch]);
 
   return (
+
+        <Fade top>
     <div className={`jobs-container ${theme === "light" ? "light" : undefined}`}>
       <h4 className="title">Available Services</h4>
       {loading ? (
@@ -57,6 +60,7 @@ const Jobs = () => {
         </div>
       )}
     </div>
+    </Fade>
   );
 };
 

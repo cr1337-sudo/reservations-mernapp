@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node src/index.js",
     "heroku-postbuild": "cd reservas-ui && npm install && npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js && cd reservas-ui && npm start"
   },
   "repository": {
     "type": "git",

@@ -4,6 +4,7 @@ import {
   loginFailure,
   registerStart,
   registerFailure,
+  logout,
 } from "./AuthActions";
 import axios from "axios";
 
@@ -25,13 +26,18 @@ export const register = async (dispatch, data) => {
   dispatch(registerStart());
   try {
     const res = await axios.post("/api/auth/register", data);
-    console.log(res)
+    console.log(res);
     if (res.status === 200) {
       login(dispatch, { email: data.email, password: data.password1 });
-    }else{
-      dispatch(registerFailure(res.data.error))
+    } else {
+      dispatch(registerFailure(res.data.error));
     }
   } catch {
     dispatch(registerFailure("Error during register"));
   }
+};
+
+export const logOut = async (dispatch) => {
+  await dispatch(logout());
+  localStorage.removeItem("user");
 };

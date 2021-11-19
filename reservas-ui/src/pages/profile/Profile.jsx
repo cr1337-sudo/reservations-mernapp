@@ -1,11 +1,16 @@
 import { useContext, useRef, useState } from "react";
 import "./profile.scss";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { Box, TextField, alpha, styled, Button, Stack } from "@mui/material";
 import { AuthContext } from "../../context/authContext/AuthContext";
 import { ThemeContext } from "../../context/themeContext/ThemeContext";
+import { logOut } from "../../context/authContext/apiCalls";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Profile = () => {
+  const history = useHistory();
   const { user, dispatch } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const [edit, setEdit] = useState(false);
@@ -74,6 +79,10 @@ const Profile = () => {
     }
   };
 
+  const handleLogout = async () => {
+    await logOut(dispatch);
+  };
+
   const CssTextField = styled(TextField)({
     ".MuiFilledInput-input ": {
       background: "white",
@@ -84,6 +93,9 @@ const Profile = () => {
     <div className={`profile-container ${theme === "light" ? "light" : ""}`}>
       <div class="top-title">
         <h2>PROFILE</h2>
+        <Link to="/logout" className="logout" onClick={handleLogout}>
+          LOGOUT <PowerSettingsNewIcon className="icon" />
+        </Link>
       </div>
       <div className="center-main">
         <div className="left-side">
@@ -186,13 +198,11 @@ const Profile = () => {
               {edit ? (
                 <>
                   <Button
-                    className={
-                      updating ? "disabled" : null
-                    }
+                    className={updating ? "disabled" : null}
                     disabled={updating}
-                variant="contained"
-                color="success"
-                type="submit"
+                    variant="contained"
+                    color="success"
+                    type="submit"
                   >
                     Confirm Edit
                   </Button>

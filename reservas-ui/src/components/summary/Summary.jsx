@@ -1,4 +1,5 @@
 import "./summary.scss";
+import Fade from "react-reveal/Fade"
 import { useContext, useEffect, useState } from "react";
 import { SummaryContext } from "../../context/summaryContext/SummaryContext";
 import { AuthContext } from "../../context/authContext/AuthContext";
@@ -63,6 +64,7 @@ const Summary = () => {
       .catch(() => setError("Error, please check your data"));
   };
   return (
+        <Fade top>
     <div className={`summary-container ${theme === "light" ? "light" : undefined}`}>
       <h3 className="title">Summary</h3>
       <div className="summary-data">
@@ -127,6 +129,7 @@ const Summary = () => {
         )}
       </div>
     </div>
+    </Fade>
   );
 };
 
