@@ -5,9 +5,13 @@ import { Box, TextField, alpha, styled, Button, Stack } from "@mui/material";
 import { AuthContext } from "../../context/authContext/AuthContext";
 import { ThemeContext } from "../../context/themeContext/ThemeContext";
 import { logOut } from "../../context/authContext/apiCalls";
+import { loginSuccess } from "../../context/authContext/AuthActions";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { validatePassword } from "./utils";
+import { encryptData, decryptData } from "../../context/authContext/utils";
+import { storage } from "../../firebase/firebase.js";
 
 const Profile = () => {
   const history = useHistory();
@@ -17,6 +21,8 @@ const Profile = () => {
   const [userDataEdit, setUserDataEdit] = useState({
     name: user.name,
     email: user.email,
+    phone: user.number || null,
+    profilePic: user.profilePic || null,
   });
   const name = useRef(null);
   const email = useRef(null);
@@ -24,28 +30,35 @@ const Profile = () => {
   const password1 = useRef(null);
   const password2 = useRef(null);
 
-  const [passwords, setPasswords] = useState({
-    password1: "",
-    password2: "",
-  });
-
   const [passwordError, setPasswordError] = useState(null);
   const [updating, setUpdating] = useState(false);
+  const [photo, setPhoto] = useState(null);
+  const [uploadedPhoto, setUploadedPhoto] = useState("");
 
-  const validatePassword = () => {
-    const { password1, password2 } = passwords;
-    if (password1.length === 0 && password2.length === 0) return true;
+  const changePhoto = (e) => {
+    setPhoto(e.target.files[0]);
+  };
 
-    if (password1.length < 6 || password2.length < 6)
-      return setPasswordError("Password must contain at least 6 letters");
-
-    if (password1 !== password2)
-      return setPasswordError("Passwords don't match");
-
-    if (password1 === password2 && password1.length >= 6) {
-      setPasswordError(null);
-      return true;
-    }
+  const uploadPhoto = async (e) => {
+    const uploadTask = storage.ref(`photos/${photo.name}`).put(photo);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        storage
+          .ref("photos")
+          .child(photo.name)
+          .getDownloadURL()
+          .then((url) => {
+            console.log(url);
+            setUploadedPhoto(url.toString());
+          })
+          .then(console.log(uploadedPhoto));
+      }
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -57,25 +70,43 @@ const Profile = () => {
       password: password1.current.value,
     };
 
-    if (validatePassword()) {
+    if (
+      validatePassword(
+        {
+          password1: password1.current.value || "",
+          password2: password2.current.value || "",
+        },
+        setPasswordError
+      )
+    ) {
+      if (newData.password.trim().length === "") delete newData.password;
       setUpdating(true);
-      axios
-        .put(`/users/${user._id}`, newData, {
-          headers: {
-            token: `Bearer ${user.token}`,
-          },
-        })
-        .then((data) => {
-          const localStorageUser = JSON.parse(localStorage.getItem("user"));
-          const localStorageNewUser = {
-            token: localStorageUser.token,
-            ...data.data,
-          };
-          localStorage.setItem("user", JSON.stringify(localStorageNewUser));
-          setUserDataEdit(localStorageNewUser);
-          setUpdating(false);
-          setEdit(false);
-        });
+
+      uploadPhoto().then(
+        (newData.profilePic = uploadedPhoto),
+        axios
+          .put(`/api/users/${user._id}`, newData, {
+            headers: {
+              token: `Bearer ${user.token}`,
+            },
+          })
+          .then((data) => {
+            const localStorageUser = decryptData(
+              localStorage.getItem("user"),
+              process.env.REACT_APP_SECRET_WORD
+            );
+
+            const localStorageNewUser = {
+              token: localStorageUser.token,
+              ...data.data,
+            };
+
+            dispatch(loginSuccess(localStorageNewUser));
+            setUserDataEdit(localStorageNewUser);
+            setUpdating(false);
+            setEdit(false);
+          })
+      );
     }
   };
 
@@ -101,10 +132,15 @@ const Profile = () => {
         <div className="left-side">
           <h4>Profile pic</h4>
           <img
-            src="https://www.kindpng.com/picc/m/111-1114911_person-icon-png-download-icono-usuario-png-transparent.png"
+            src={
+              user.profilePic ||
+              "https://www.kindpng.com/picc/m/111-1114911_person-icon-png-download-icono-usuario-png-transparent.png"
+            }
             alt="Person"
           />
-          <input placeholder="New photo" type="file" />
+          {edit ? (
+            <input placeholder="New photo" type="file" onChange={changePhoto} />
+          ) : null}
         </div>
         <div class="right-side">
           {/*
@@ -147,19 +183,8 @@ const Profile = () => {
               label="Phone Number"
               type="number"
               name="phone"
-              defaultValue={userDataEdit?.phone || ""}
+              value={userDataEdit?.phone || null}
             />
-            {/*
-            <input
-              className={edit ? "disabled" : undefined}
-              name="name"
-              type="text"
-              placeholder="Name"
-              disabled={!edit}
-              value={userDataEdit.name}
-              onChange={handleChange}
-            />
-            */}
 
             {user.name !== "prueba" && user.email !== "prueba@prueba.com" ? (
               <>
@@ -171,10 +196,7 @@ const Profile = () => {
                   label="Password"
                   type="password"
                   name="password1"
-                  defaultValue={passwords.password1}
-                  onChange={(e) => {
-                    setPasswords({ ...passwords, password1: e.target.value });
-                  }}
+                  autoComplete={false}
                 />
 
                 <CssTextField
@@ -184,10 +206,6 @@ const Profile = () => {
                   label="Confirm Password"
                   type="password"
                   name="password2"
-                  defaultValue={passwords.password2}
-                  onChange={(e) => {
-                    setPasswords({ ...passwords, password1: e.target.value });
-                  }}
                 />
                 {passwordError ? (
                   <p className="error">{passwordError}</p>
@@ -217,10 +235,6 @@ const Profile = () => {
                         name: user.name,
                         email: user.email,
                         phone: user?.phone || "",
-                      });
-                      setPasswords({
-                        password1: "",
-                        password2: "",
                       });
                       setPasswordError(null);
                     }}

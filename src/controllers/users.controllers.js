@@ -8,6 +8,7 @@ const updateUser = async (req, res) => {
       req.body.password = await bcrypt.hash(req.body.password, 10);
     }
     try {
+      console.log(req.body.phone)
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
         {
@@ -16,8 +17,8 @@ const updateUser = async (req, res) => {
         { new: true }
       );
 
-      const {email, name, phone, _id} = updatedUser._doc
-      res.status(200).json({email, name, phone, _id});
+      const {email, name, phone, _id, profilePic} = updatedUser._doc
+      res.status(200).json({email, name, phone, _id, profilePic});
     } catch (e) {
       res.status(500).json("Erro");
     }

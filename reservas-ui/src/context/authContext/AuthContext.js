@@ -1,8 +1,9 @@
 import { createContext, useEffect, useReducer } from "react";
+import { encryptData, decryptData } from "./utils";
 import AuthReducer from "./AuthReducer";
 
 const INITIAL_STATE = {
-  user: JSON.parse(localStorage.getItem("user")) || null,
+  user: localStorage.getItem("user") ? decryptData(localStorage.getItem("user"), process.env.REACT_APP_SECRET_WORD) : null,
   isFetching: false,
   error: false,
 };
@@ -14,7 +15,10 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const check = ()=>{
-      if(state.user && !state.user.error) localStorage.setItem("user", JSON.stringify(state.user));
+      if(state.user && !state.user.error){
+       localStorage.setItem("user",  encryptData(state?.user, process.env.REACT_APP_SECRET_WORD))
+        
+    }
     }
     check()
   }, [state.user]);
