@@ -33,13 +33,13 @@ const Profile = () => {
   const [passwordError, setPasswordError] = useState(null);
   const [updating, setUpdating] = useState(false);
   const [photo, setPhoto] = useState(null);
-  const [uploadedPhoto, setUploadedPhoto] = useState("");
+  const [uploadedPhoto, setUploadedPhoto] = useState(null);
 
   const changePhoto = (e) => {
     setPhoto(e.target.files[0]);
   };
 
-  const uploadPhoto = async (e) => {
+  const uploadPhoto = async () => {
     const uploadTask = storage.ref(`photos/${photo.name}`).put(photo);
     uploadTask.on(
       "state_changed",
@@ -53,23 +53,21 @@ const Profile = () => {
           .child(photo.name)
           .getDownloadURL()
           .then((url) => {
-            console.log(url);
             setUploadedPhoto(url.toString());
-          })
-          .then(console.log(uploadedPhoto));
+          });
       }
     );
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleUpload = async (e) => {
     let newData = {
       name: name.current.value,
       email: email.current.value,
       phone: phone.current.value,
       password: password1.current.value,
+      profilePic: uploadedPhoto || null,
     };
-
+    console.log(uploadedPhoto)
     if (
       validatePassword(
         {
@@ -79,35 +77,43 @@ const Profile = () => {
         setPasswordError
       )
     ) {
-      if (newData.password.trim().length === "") delete newData.password;
+      if (newData.password.trim() === "") delete newData.password;
+      if (newData.phone.trim() === "") delete newData.phone;
+
+      console.log(newData);
       setUpdating(true);
 
-      uploadPhoto().then(
-        (newData.profilePic = uploadedPhoto),
-        axios
-          .put(`/api/users/${user._id}`, newData, {
-            headers: {
-              token: `Bearer ${user.token}`,
-            },
-          })
-          .then((data) => {
-            const localStorageUser = decryptData(
-              localStorage.getItem("user"),
-              process.env.REACT_APP_SECRET_WORD
-            );
+      axios
+        .put(`/api/users/${user._id}`, newData, {
+          headers: {
+            token: `Bearer ${user.token}`,
+          },
+        })
+        .then((data) => {
+          const localStorageUser = decryptData(
+            localStorage.getItem("user"),
+            process.env.REACT_APP_SECRET_WORD
+          );
 
-            const localStorageNewUser = {
-              token: localStorageUser.token,
-              ...data.data,
-            };
+          const localStorageNewUser = {
+            token: localStorageUser.token,
+            ...data.data,
+          };
 
-            dispatch(loginSuccess(localStorageNewUser));
-            setUserDataEdit(localStorageNewUser);
-            setUpdating(false);
-            setEdit(false);
-          })
-      );
+          dispatch(loginSuccess(localStorageNewUser));
+          setUserDataEdit(localStorageNewUser);
+          setUpdating(false);
+          setEdit(false);
+        });
     }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (photo) {
+      uploadPhoto().then(handleUpload());
+    } else await handleUpload();
   };
 
   const handleLogout = async () => {
