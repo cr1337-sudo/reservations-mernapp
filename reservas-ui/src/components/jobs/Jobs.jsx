@@ -1,6 +1,6 @@
 import "./jobs.scss";
 import AvailableJob from "../availableJob/AvailableJob";
-import Fade from "react-reveal/Fade"
+import { Fade, Slide,Zoom  } from "react-awesome-reveal";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { SummaryContext } from "../../context/summaryContext/SummaryContext";
@@ -37,7 +37,7 @@ const Jobs = () => {
 
   return (
 
-        <Fade top>
+    <Slide direction={"down"} style={{height:"100%"}}>
     <div className={`jobs-container ${theme === "light" ? "light" : undefined}`}>
       <h4 className="title">Available Services</h4>
       {loading ? (
@@ -60,7 +60,7 @@ const Jobs = () => {
         </div>
       )}
     </div>
-    </Fade>
+    </Slide>
   );
 };
 

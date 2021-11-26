@@ -1,5 +1,5 @@
 import "./availableHours.scss";
-import Fade from "react-reveal/Fade"
+import { Slide } from "react-awesome-reveal";
 import { SessionContext } from "../../context/sessionContext/SessionContext";
 import { useContext, useEffect, useState } from "react";
 import { SummaryContext } from "../../context/summaryContext/SummaryContext";
@@ -17,7 +17,7 @@ const AvailableHours = () => {
   }, [hour, dispatch]);
 
   return (
-        <Fade top>
+    <Slide direction={"down"}>
     <div className={`hours-container  ${theme === "light" ? "light" : undefined}`}>
       {isFetching ? (
         <div className="lds-ring spinner">
@@ -49,7 +49,7 @@ const AvailableHours = () => {
         </form>
       )}
     </div>
-    </Fade>
+    </Slide>
   );
 };
 

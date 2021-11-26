@@ -1,5 +1,5 @@
 import "./calendar.scss";
-import Fade from "react-reveal/Fade";
+import { Slide } from "react-awesome-reveal";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -48,7 +48,7 @@ const Calendar = () => {
   }, [value, dispatch, dispatch2]);
 
   return (
-    <Fade top>
+    <Slide direction={"down"} style={{height:"55%"}}>
       <div
         className={`calendar-container ${
           theme === "light" ? "light" : undefined
@@ -74,7 +74,7 @@ const Calendar = () => {
           </LocalizationProvider>
         </div>
       </div>
-    </Fade>
+    </Slide>
   );
 };
 

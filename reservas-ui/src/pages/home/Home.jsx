@@ -2,7 +2,7 @@ import AvailableHours from "../../components/availableHours/AvailableHours";
 import Calendar from "../../components/calendar/Calendar";
 import Jobs from "../../components/jobs/Jobs";
 import Summary from "../../components/summary/Summary";
-import Fade from "react-reveal/Fade"
+import { Fade } from "react-awesome-reveal";
 import "./home.scss";
 
 const Home = () => {
