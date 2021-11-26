@@ -17,7 +17,7 @@ const AvailableHours = () => {
   }, [hour, dispatch]);
 
   return (
-    <Slide direction={"down"}>
+    <Slide direction={"down"} triggerOnce={true}>
     <div className={`hours-container  ${theme === "light" ? "light" : undefined}`}>
       {isFetching ? (
         <div className="lds-ring spinner">

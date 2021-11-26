@@ -37,7 +37,7 @@ const Jobs = () => {
 
   return (
 
-    <Slide direction={"down"} style={{height:"100%"}}>
+    <Slide direction={"down"} style={{height:"100%"}} triggerOnce={true}>
     <div className={`jobs-container ${theme === "light" ? "light" : undefined}`}>
       <h4 className="title">Available Services</h4>
       {loading ? (

@@ -48,7 +48,7 @@ const Calendar = () => {
   }, [value, dispatch, dispatch2]);
 
   return (
-    <Slide direction={"down"} style={{height:"55%"}}>
+    <Slide direction={"down"} style={{height:"55%"}} triggerOnce={true}>
       <div
         className={`calendar-container ${
           theme === "light" ? "light" : undefined

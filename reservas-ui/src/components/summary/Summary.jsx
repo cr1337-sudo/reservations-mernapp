@@ -65,7 +65,7 @@ const Summary = () => {
   };
   return (
 
-    <Slide direction={"down"} style={{height:"100%"}}>
+    <Slide direction={"down"} style={{height:"100%"}} triggerOnce={true}>
     <div className={`summary-container ${theme === "light" ? "light" : undefined}`}>
       <h3 className="title">Summary</h3>
       <div className="summary-data">
