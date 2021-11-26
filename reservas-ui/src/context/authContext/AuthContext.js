@@ -3,7 +3,7 @@ import { encryptData, decryptData } from "./utils";
 import AuthReducer from "./AuthReducer";
 
 const INITIAL_STATE = {
-  user: localStorage.getItem("user") ? decryptData(localStorage.getItem("user"), process.env.REACT_APP_SECRET_WORD) : null,
+  user: localStorage.getItem("user"), //? decryptData(localStorage.getItem("user"), process.env.REACT_APP_SECRET_WORD) : null,
   isFetching: false,
   error: false,
 };
@@ -17,7 +17,7 @@ export const AuthContextProvider = ({ children }) => {
     const check = ()=>{
       if(state.user && !state.user.error){
         const user =  encryptData(state?.user, process.env.REACT_APP_SECRET_WORD)
-       localStorage.setItem("user", user)
+       localStorage.setItem("user", state.user)
         
     }
     }
