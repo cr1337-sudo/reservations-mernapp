@@ -1,5 +1,5 @@
 import "./calendar.scss";
-import Fade from "react-reveal/Fade"
+import Fade from "react-reveal/Fade";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -48,29 +48,32 @@ const Calendar = () => {
   }, [value, dispatch, dispatch2]);
 
   return (
-        <Fade top>
-    <div
-      className={`calendar-container ${
-        theme === "light" ? "light" : undefined
-      }`}
-    >
-      <div class="calendar">
-        <LocalizationProvider dateAdapter={AdapterDateFns} className="calendar">
-          <StaticDatePicker
-            displayStaticWrapperAs={`${width < 780 ? "mobile" : "desktop"}`}
-            openTo="day"
-            minDate={Date.now()}
-            maxDate={Date.now() + 5259600000}
-            value={value}
-            onChange={(newValue) => {
-              setValue(newValue);
-              dispatch2(changeHour(""));
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
+    <Fade top>
+      <div
+        className={`calendar-container ${
+          theme === "light" ? "light" : undefined
+        }`}
+      >
+        <div className="calendar">
+          <LocalizationProvider
+            dateAdapter={AdapterDateFns}
+            className="calendar"
+          >
+            <StaticDatePicker
+              displayStaticWrapperAs={`${width < 780 ? "mobile" : "desktop"}`}
+              openTo="day"
+              minDate={Date.now()}
+              maxDate={Date.now() + 5259600000}
+              value={value}
+              onChange={(newValue) => {
+                setValue(newValue);
+                dispatch2(changeHour(""));
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+        </div>
       </div>
-    </div>
     </Fade>
   );
 };

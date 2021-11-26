@@ -1,20 +1,18 @@
 import { useContext, useRef, useState } from "react";
 import "./profile.scss";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import { Box, TextField, alpha, styled, Button, Stack } from "@mui/material";
+import { Box, TextField, styled, Button, Stack } from "@mui/material";
 import { AuthContext } from "../../context/authContext/AuthContext";
 import { ThemeContext } from "../../context/themeContext/ThemeContext";
 import { logOut } from "../../context/authContext/apiCalls";
 import { loginSuccess } from "../../context/authContext/AuthActions";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
 import { validatePassword } from "./utils";
-import { encryptData, decryptData } from "../../context/authContext/utils";
+import { decryptData } from "../../context/authContext/utils";
 import { storage } from "../../firebase/firebase.js";
 
 const Profile = () => {
-  const history = useHistory();
   const { user, dispatch } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const [edit, setEdit] = useState(false);
@@ -33,17 +31,20 @@ const Profile = () => {
   const [passwordError, setPasswordError] = useState(null);
   const [updating, setUpdating] = useState(false);
   const [photo, setPhoto] = useState(null);
-  const [uploadedPhoto, setUploadedPhoto] = useState(null);
 
   const changePhoto = (e) => {
     setPhoto(e.target.files[0]);
   };
 
-  const uploadPhoto = async () => {
+  const uploadPhoto = async (cb) => {
     const uploadTask = storage.ref(`photos/${photo.name}`).put(photo);
     uploadTask.on(
       "state_changed",
-      (snapshot) => {},
+      (snap) => {
+        console.log(
+          Math.round((snap.bytesTransferred / snap.totalBytes) * 100)
+        );
+      },
       (error) => {
         console.log(error);
       },
@@ -53,21 +54,20 @@ const Profile = () => {
           .child(photo.name)
           .getDownloadURL()
           .then((url) => {
-            setUploadedPhoto(url.toString());
+            cb(url);
           });
       }
     );
   };
 
-  const handleUpload = async (e) => {
+  const handleUpload = async (url) => {
     let newData = {
       name: name.current.value,
       email: email.current.value,
       phone: phone.current.value,
       password: password1.current.value,
-      profilePic: uploadedPhoto || null,
+      profilePic: url || null,
     };
-    console.log(uploadedPhoto)
     if (
       validatePassword(
         {
@@ -79,8 +79,8 @@ const Profile = () => {
     ) {
       if (newData.password.trim() === "") delete newData.password;
       if (newData.phone.trim() === "") delete newData.phone;
+      if (newData.profilePic === null) delete newData.profilePic;
 
-      console.log(newData);
       setUpdating(true);
 
       axios
@@ -112,7 +112,7 @@ const Profile = () => {
     e.preventDefault();
 
     if (photo) {
-      uploadPhoto().then(handleUpload());
+      uploadPhoto(handleUpload);
     } else await handleUpload();
   };
 
@@ -128,7 +128,7 @@ const Profile = () => {
 
   return (
     <div className={`profile-container ${theme === "light" ? "light" : ""}`}>
-      <div class="top-title">
+      <div className="top-title">
         <h2>PROFILE</h2>
         <Link to="/logout" className="logout" onClick={handleLogout}>
           LOGOUT <PowerSettingsNewIcon className="icon" />
@@ -148,7 +148,7 @@ const Profile = () => {
             <input placeholder="New photo" type="file" onChange={changePhoto} />
           ) : null}
         </div>
-        <div class="right-side">
+        <div className="right-side">
           {/*
           <form action="" onSubmit={handleSubmit}>
       */}
@@ -202,12 +202,14 @@ const Profile = () => {
                   label="Password"
                   type="password"
                   name="password1"
-                  autoComplete={false}
+              value={undefined}
                 />
 
                 <CssTextField
                   disabled={!edit}
                   inputRef={password2}
+
+              value={undefined}
                   variant="filled"
                   label="Confirm Password"
                   type="password"

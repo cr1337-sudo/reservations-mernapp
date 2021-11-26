@@ -1,10 +1,6 @@
 import "./availableJob.scss";
-import { ThemeContext } from "../../context/themeContext/ThemeContext";
-import {useContext} from "react"
 
 const AvailableJob = ({ title, desc, handleSelect }) => {
-
-  const {theme} = useContext(ThemeContext)
 
   return (
     <article className="job">
