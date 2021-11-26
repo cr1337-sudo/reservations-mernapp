@@ -16,7 +16,8 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const check = ()=>{
       if(state.user && !state.user.error){
-       localStorage.setItem("user",  encryptData(state?.user, process.env.REACT_APP_SECRET_WORD))
+        const user =  encryptData(state?.user, process.env.REACT_APP_SECRET_WORD)
+       localStorage.setItem("user", user)
         
     }
     }
