@@ -1,21 +1,21 @@
 @import "./variables";
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap");
-body {
-  font-family: "Montserrat", sans-serif;
-  color: #fff;
-  height: 100%;
-}
 
 .cont {
-  margin:0;
+  margin: 0;
   background-color: rgba(28, 28, 39, 1);
-  min-height: 100vh;
-  padding-top: 10px;
-  padding-right: 10px;
-  padding-bottom: 10px;
+    height: 100vh;
 }
 
-.cont.light{
-  background-color:$bgLight;
+.cont.light {
+  background-color: $bgLight;
   color: black;
 }
+
+
+@media (max-width: 1000px){
+  .cont{
+    overflow: scroll;
+  }
+}
+
+

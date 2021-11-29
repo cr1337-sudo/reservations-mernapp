@@ -9,7 +9,6 @@ const Home = () => {
 
   return (
     <>
-        <Fade top>
     <div className="main-container">
       <div className="left-container">
         <Jobs />
@@ -22,7 +21,6 @@ const Home = () => {
         <Summary />
       </div>
     </div>
-    </Fade>
     </>
   );
 };

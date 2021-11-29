@@ -1,10 +1,9 @@
 @import "../../variables";
 
-.hours-container {
-  position: relative;
+.slide{
+  height: calc(100vh - 55% - 40px);
   background-color: rgba(40, 41, 61, 1);
   padding: 20px;
-  min-height: calc(100% - 55% - 20px);
   margin-top: 20px;
   width: 100%;
   display: flex;
@@ -13,7 +12,10 @@
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
-  &.light {
+ 
+}
+.hours-container {
+ &.light {
     background-color: $bgComponents;
 
     .inputGroup {
@@ -169,5 +171,11 @@
     label::after {
       visibility: hidden;
     }
+  }
+}
+
+@media (max-width: 1000px){
+  .slide{
+    height: 45%;
   }
 }

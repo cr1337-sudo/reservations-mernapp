@@ -1,6 +1,7 @@
 .main-container {
-  min-height: 97vh;
+  box-sizing: border-box;
   display: flex;
+  height: 100vh;
   padding: 0;
   margin: 0;
   margin-left: 4rem;
@@ -15,19 +16,21 @@
 }
 
 @media (max-width: 1000px) {
-  .main-container{
-    flex-direction:column;
+  .main-container {
+    flex-direction: column;
+    height: 260vh;
   }
   .left-container,
   .center-container,
   .right-container {
     flex: 12;
+    margin-top: 100px;
   }
 }
 
 @media (max-width: 600px) {
   .main-container {
     margin-left: 7px;
-    margin-bottom: 80px;
+    margin-bottom: 90px;
   }
 }
